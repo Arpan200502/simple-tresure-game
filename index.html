@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Island Game</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #2c3e50; 
+            color: white;
+            padding: 20px;
+        }
+        pre { 
+            font-size: 14px; 
+            white-space: pre-wrap; 
+            background: #34495e;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            color: #f1c40f;
+            text-align: left;
+        }
+        button { 
+            margin: 10px; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <pre>
+*******************************************************************************
+          |                   |                  |                     |
+ _________|________________.=""_;=.______________|_____________________|_______
+|                   |  , -"_,=""     `"=. |                  |
+|___________________|__"=._o`"-._        `"=.______________|___________________
+          |                `"=._o`"=._      _`"=._                     |
+ _________|_____________________:=._o "=._."_.-="'"=.__________________|_______
+|                   |    __.--" , ; `"=._o." ,-"""-._ ".   |
+|___________________|_._"  ,. .` ` `` ,  `"-._"-._   ". '__|___________________
+          |           |o`"=._` , "` `; .". ,  "-._"-._; ;              |
+ _________|___________| ;`-.o`"=._; ." ` '`."\ ` . "-._ /_______________|_______
+|                   | |o ;    `"-.o`"=._``  '` " ,__.--o;   |
+|___________________|_| ;     (#) `-.o `"=.`_.--"_o.-; ;___|___________________
+____/______/______/___|o;._    "      `".o|o_.--"    ;o;____/______/______/____
+/______/______/______/ "=._o--._        ; | ;        ; ;/______/______/______/_
+*******************************************************************************
+    </pre>
+    <h1>Welcome to Treasure Island</h1>
+    <p>Your mission is to find the treasure.</p>
+    <button onclick="startGame()">Start Game</button>
+    <p id="game-text"></p>
+    <div id="choices"></div>
+
+    <script>
+        function startGame() {
+            document.getElementById('game-text').innerText = "You're at a crossroad, where do you want to go?";
+            setChoices(["left", "right"], handleCrossroad);
+        }
+        
+        function handleCrossroad(choice) {
+            if (choice === "left") {
+                document.getElementById('game-text').innerText = "You've come to a lake. There is an island in the middle of the lake.";
+                setChoices(["wait", "swim"], handleLake);
+            } else {
+                endGame("You fell into a hole. Game Over.");
+            }
+        }
+        
+        function handleLake(choice) {
+            if (choice === "wait") {
+                document.getElementById('game-text').innerText = "You arrive at the island unharmed. There is a house with 3 doors: red, yellow, and blue. Which one do you choose?";
+                setChoices(["red", "yellow", "blue"], handleDoors);
+            } else {
+                endGame("You got attacked by an angry trout. Game Over.");
+            }
+        }
+        
+        function handleDoors(choice) {
+            if (choice === "red") {
+                endGame("It's a room full of fire. Game Over.");
+            } else if (choice === "blue") {
+                endGame("You enter a room of beasts. Game Over.");
+            } else if (choice === "yellow") {
+                endGame("CONGRATS! You found the treasure. You Win!");
+            } else {
+                endGame("You chose a door that doesn't exist. Game Over.");
+            }
+        }
+        
+        function setChoices(options, callback) {
+            const choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = "";
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => callback(option);
+                choicesDiv.appendChild(button);
+            });
+        }
+        
+        function endGame(message) {
+            document.getElementById('game-text').innerText = message;
+            document.getElementById('choices').innerHTML = '<button onclick="startGame()">Play Again</button>';
+        }
+    </script>
+</body>
+</html>
